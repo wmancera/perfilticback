@@ -157,8 +157,13 @@
 							<li>Cart Sub Total <span>$<%= Math.round(total*100.0)/100.0%></span></li>
 							<li>Total <span>$<%= Math.round(total*100.0)/100.0%></span></li>
 						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+                                                <form action="SaveOrder" method="post">
+                                                        <button type="submit" class="btn btn-fefault cart">
+										<i class="fa fa-shopping-cart"></i>
+										Save Order
+							</button>
+                                                        </form>
+							
 					</div>
 				</div>
 			</div>

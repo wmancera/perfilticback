@@ -6,10 +6,12 @@
 package com.pruebatic.pruebatic.servlets;
 
 import com.pruebatic.pruebatic.objects.Article;
+import com.testptic.testptic.controller.BookController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author William
  */
-public class AddBookCartServelt extends HttpServlet {
+@WebServlet(name = "SaveOrder", urlPatterns = {"/SaveOrder"})
+public class SaveOrderServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +36,16 @@ public class AddBookCartServelt extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        int quantityorder = Integer.parseInt(request.getParameter("quantityorder"));
-        int idbook = Integer.parseInt(request.getParameter("idbook"));
         HttpSession sesion = request.getSession(true);
-        ArrayList<Article> articles = sesion.getAttribute("cart") == null ? new ArrayList<Article>() : (ArrayList) sesion.getAttribute("cart");
-        boolean flag = false;        
-        if(articles.size() > 0){
-            for(Article a : articles){
-                if(idbook == a.getIdArticle()){
-                    a.setCantidad(a.getCantidad() + quantityorder);
-                    a.setQuantityOrder(quantityorder);
-                    flag = true;
-                    break;
-                }
-            }
+        ArrayList<Article> articles = sesion.getAttribute("cart") == null ? null : (ArrayList) sesion.getAttribute("cart");
+        BookController bc = new BookController();
+        String result = bc.saveOrder(articles);
+        if("OK".equals(result)){
+            articles = new ArrayList<>();
+            sesion.setAttribute("cart", articles);
         }
         
-        if(!flag){
-            articles.add(new Article(idbook, quantityorder));
-        }       
-        sesion.setAttribute("cart", articles);        
-        response.sendRedirect("cart.jsp");
+        response.sendRedirect("shop.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

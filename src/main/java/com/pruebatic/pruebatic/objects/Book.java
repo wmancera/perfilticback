@@ -103,4 +103,11 @@ public class Book {
         this.cost = cost;
     }
 
+    public String getAvailable(){
+        if(quantity==0){
+            return "Agotado";
+        }else{
+            return String.valueOf(this.getQuantity());
+        }
+    }
 }

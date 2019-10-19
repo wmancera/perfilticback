@@ -12,6 +12,7 @@ package com.pruebatic.pruebatic.objects;
 public class Article {
     private int idArticle;
     private int cantidad;
+    private int quantityOrder;
     
     public Article (int idArticle,int cantidad){
         this.idArticle=idArticle;
@@ -44,6 +45,20 @@ public class Article {
      */
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    /**
+     * @return the quantityOrder
+     */
+    public int getQuantityOrder() {
+        return quantityOrder;
+    }
+
+    /**
+     * @param quantityOrder the quantityOrder to set
+     */
+    public void setQuantityOrder(int quantityOrder) {
+        this.quantityOrder = quantityOrder;
     }
 
     

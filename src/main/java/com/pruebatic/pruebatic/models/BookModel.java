@@ -6,6 +6,8 @@
 package com.pruebatic.pruebatic.models;
 
 import com.pruebatic.pruebatic.objects.Book;
+import com.pruebatic.pruebatic.objects.OrderBook;
+import com.pruebatic.pruebatic.objects.OrderBookDetail;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,5 +77,63 @@ public class BookModel extends ConexionUtility{
         }
         return libro;
     }
+    
+    /**
+     * 
+     * @param orderBook, Object Model that contain the attributes to OrderBook entity
+     * @return 
+     */
+    public String saveOrder(OrderBook orderBook){
+        PreparedStatement pst = null;
+        try{
+            String sql = "insert into order_book (ID_ORDER,QUANTITY) values (NEXTVAL('SQ_ORDER_BOOK'),"
+                    +orderBook.getQuantity()+")";
+            pst = getConexion().prepareStatement(sql);
+            pst.execute();
+        }catch(SQLException e){
+            System.out.println("BookModel::saveOrder::"+e.getMessage());
+            return "error";
+        }catch(Exception e){
+            System.out.println("BookModel::saveOrder::"+e.getMessage());
+            return "error";
+        } finally {
+            try{
+                if(pst != null)pst.close();
+                if(getConexion()!=null) getConexion().close();
+            }catch(SQLException e){
+                System.out.println("BookModel::saveOrder::"+e.getMessage());
+            }catch(Exception e){
+                System.out.println("BookModel::saveOrder::"+e.getMessage());
+        }
+        }
+        return "OK";
+    }
 
+    public String updateQuantity(Book book, int quantity){
+        PreparedStatement pst = null;
+        try{
+            System.out.println(book.getQuantity());
+            int newQuant = book.getQuantity()-quantity;
+            String sql = "update  BOOK  set QUANTITY = "+newQuant+"where id_book="+book.getId();
+            pst = getConexion().prepareStatement(sql);
+            pst.execute();
+        }catch(SQLException e){
+            System.out.println("BookModel::updateQuantity::"+e.getMessage());
+            return "error";
+        }catch(Exception e){
+            System.out.println("BookModel::updateQuantity::"+e.getMessage());
+            return "error";
+        } finally {
+            try{
+                if(pst != null)pst.close();
+                if(getConexion()!=null) getConexion().close();
+            }catch(SQLException e){
+                System.out.println("BookModel::updateQuantity::"+e.getMessage());
+            }catch(Exception e){
+                System.out.println("BookModel::updateQuantity::"+e.getMessage());
+        }
+        }
+        return "OK";
+    }
+    
 }

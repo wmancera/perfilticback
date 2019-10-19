@@ -59,7 +59,7 @@
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li class="dropdown"><a href="#" class="active">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.jsp" class="active">Products</a></li>
+                                        <li><a href="shop.jsp" class="active">Books</a></li>
 					<li><a href="cart.jsp">Cart</a></li> 
                                     </ul>
                                 </li> 
@@ -111,7 +111,7 @@
 									</button>
 								</span>
                                                                 </form>
-								<p><b>Availability:</b> In Stock</p>
+								<p><b>Availability:</b> <%= book.getAvailable()%></p>
 							</div><!--/product-information-->
 						</div>
 					</div><!--/product-details-->

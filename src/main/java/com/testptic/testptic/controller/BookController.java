@@ -6,7 +6,11 @@
 package com.testptic.testptic.controller;
 
 import com.pruebatic.pruebatic.models.BookModel;
+import com.pruebatic.pruebatic.objects.Article;
 import com.pruebatic.pruebatic.objects.Book;
+import com.pruebatic.pruebatic.objects.OrderBook;
+import com.pruebatic.pruebatic.objects.OrderBookDetail;
+import java.util.ArrayList;
 
 /**
  *
@@ -48,5 +52,28 @@ public class BookController {
     
     public Book getBook(int id){
         return new BookModel().getBookId(id);
+    }
+    
+    /**
+     * Method to save data of articles with their quantitys
+     * @param articles
+     * @return 
+     */
+    public String saveOrder(ArrayList<Article> articles){
+        BookModel bm = new BookModel();
+        OrderBook orderBook = new OrderBook();
+        
+        orderBook.setCost(0);
+            for(Article a : articles){
+                Book book = new Book();
+                book.setId(a.getIdArticle());
+                book.setQuantity(a.getCantidad());
+                orderBook.setQuantity(a.getQuantityOrder());
+                String resUpd = bm.updateQuantity(book, orderBook.getQuantity());
+                if(!"OK".equals(resUpd)){
+                    return "error::"+resUpd;
+                }
+            }
+        return bm.saveOrder(orderBook);
     }
 }

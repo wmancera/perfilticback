@@ -6,6 +6,8 @@
 package com.pruebatic.pruebatic.servlets;
 
 import com.pruebatic.pruebatic.objects.Article;
+import com.pruebatic.pruebatic.objects.Book;
+import com.testptic.testptic.controller.BookController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -35,16 +37,23 @@ public class DeleteItemServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         int idbook = Integer.parseInt(request.getParameter("idbook"));
         HttpSession sesion = request.getSession(true);
-        ArrayList<Article> articulos = sesion.getAttribute("cart") == null ? null : (ArrayList) sesion.getAttribute("cart");
-        if(articulos != null){
-            for(Article a : articulos){                
+        ArrayList<Article> articles = sesion.getAttribute("cart") == null ? null : (ArrayList) sesion.getAttribute("cart");
+        if(articles != null){
+            for(Article a : articles){                
                 if(a.getIdArticle() == idbook){
-                    articulos.remove(a);
+                    articles.remove(a);
                     break;
                 }
             }
         }
-        response.getWriter().print("yu");
+        double total = 0;
+        BookController cp = new BookController();
+        for(Article a : articles){                
+            Book book = cp.getBook(a.getIdArticle());
+            total += a.getCantidad() * book.getCost();
+        }
+        
+        response.getWriter().print(Math.round(total * 100.0) /100.0); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
